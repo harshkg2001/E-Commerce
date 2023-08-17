@@ -8,6 +8,7 @@ import Products from "./pages/Products/Products";
 import "./app.scss"
 import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/Signup";
+import About from "./pages/AboutUs/about";
 
 const Layout = () => {
   return (
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup/>,
+  },
+  {
+    path: "/about",
+    element: <About/>,
   },
 ]);
 

@@ -4,21 +4,28 @@ import SearchIcon from "@mui/icons-material/Search";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.scss"
 import Cart from "../Cart/Cart";
 import { useSelector } from "react-redux";
 import { Badge, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon, IconButton, Typography } from "@mui/material";
-import {CurrencyBitcoin} from "@mui/icons-material"
+import {CurrencyBitcoin, Logout} from "@mui/icons-material"
+import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
   const [open,setOpen] = useState(false)
   const products = useSelector((state) => state.cart.products);
   const [count, setCount] = useState(0);
   const [dialog, setDialog] = useState(false);
+  const {logOut} = useAuth()
+  const navigate = useNavigate()
 
   const handleClose = ()=>{
     setDialog(false);
+  }
+  const handleLogout = async ()=>{
+    await logOut();
+    navigate("/login")
   }
 
   return (
@@ -35,6 +42,9 @@ const Navbar = () => {
 
         {/* token area */}
         <div className="right">
+          <Button onClick={handleLogout}>
+            <Logout/>
+          </Button>
           <div className="token">
               <Badge badgeContent={count} showZero color="primary" onClick={()=>setDialog(true)}>
                 <CurrencyBitcoin />
@@ -45,7 +55,7 @@ const Navbar = () => {
             <Link className ="link" to="/">Home</Link>
           </div>
           <div className="item">
-            <Link className ="link" to="/">About</Link>
+            <Link className ="link" to="/about">About</Link>
           </div>
           <div className="item">
             <Link className ="link" to="/">Contact Us</Link>
