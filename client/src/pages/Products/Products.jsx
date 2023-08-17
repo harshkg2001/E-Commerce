@@ -7,7 +7,7 @@ import "./Products.scss";
 
 const Products = () => {
   const catId = parseInt(useParams().id);
-  const [maxPrice, setMaxPrice] = useState(5000);
+  const [maxPrice, setMaxPrice] = useState(20000);
   const [sort, setSort] = useState(null);
   const [selectedSubCats, setSelectedSubCats] = useState([]);
 
@@ -30,7 +30,7 @@ const Products = () => {
     <div className="products">
       <div className="left">
         <div className="filterItem">
-          <h2>Product Categories</h2>
+          <h2>Select Brand</h2>
           {data?.map((item) => (
             <div className="inputItem" key={item.id}>
               <input
@@ -50,7 +50,7 @@ const Products = () => {
             <input
               type="range"
               min={0}
-              max={1000}
+              max={20000}
               onChange={(e) => setMaxPrice(e.target.value)}
             />
             <span>{maxPrice}</span>

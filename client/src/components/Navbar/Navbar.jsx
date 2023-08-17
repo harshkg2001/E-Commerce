@@ -26,20 +26,21 @@ const Navbar = () => {
       <div className="wrapper">
         
         <div className="left">
-          <Link className ="link" to="/">FLIPMART</Link>
+          <Link className ="link" to="/">Sneak Kar</Link>
         </div>
 
         <div className="center">
           
         </div>
 
-        
+        {/* token area */}
         <div className="right">
           <div className="token">
               <Badge badgeContent={count} showZero color="primary" onClick={()=>setDialog(true)}>
                 <CurrencyBitcoin />
               </Badge>
           </div>
+
           <div className="item">
             <Link className ="link" to="/">Home</Link>
           </div>
@@ -63,6 +64,8 @@ const Navbar = () => {
         </div>
       </div>
       {open && <Cart/>} 
+      
+      {/* token dialog box */}
       <Dialog open={dialog} onClose={handleClose} fullWidth>
         <DialogTitle variant="h3">Available Tokens</DialogTitle>
         <DialogContent>

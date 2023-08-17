@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Card from "../Card/Card";
 import "./FeaturedProducts.scss";
 import useFetch from "../../hooks/useFetch";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const FeaturedProducts = ({ type }) => {
   const { data, loading, error } = useFetch(

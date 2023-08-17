@@ -8,7 +8,7 @@ const Categories = () => {
       <div className="col">
         <div className="row">
           <img
-            src="https://images.pexels.com/photos/818992/pexels-photo-818992.jpeg?auto=compress&cs=tinysrgb&w=1600"
+            src="https://assets.gqindia.com/photos/5cdc15df5400430f0a3c495a/16:9/w_2560%2Cc_limit/top-image8.jpg"
             alt=""
           />
           <button>
@@ -19,7 +19,7 @@ const Categories = () => {
         </div>
         <div className="row">
           <img
-            src="https://images.pexels.com/photos/2036646/pexels-photo-2036646.jpeg?auto=compress&cs=tinysrgb&w=1600"
+            src="https://www.autry-usa.com/upload/comunicazioni_home/230808_SNEAKERS_WOMAN@2x.jpg"
             alt=""
           />
           <button>
@@ -48,11 +48,11 @@ const Categories = () => {
           <div className="col">
             <div className="row">
               <img
-                src="https://images.pexels.com/photos/1192609/pexels-photo-1192609.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                src="https://media.fashionnetwork.com/cdn-cgi/image/fit=contain,width=1000,height=1000/m/884a/3619/4e56/2ed2/75e9/409c/0054/9be2/0a51/3583/3583.png"
                 alt=""
               />
               <button>
-                <Link to="/products/1" className="link">
+                <Link to="/products/2" className="link">
                   Men
                 </Link>
               </button>
@@ -75,12 +75,12 @@ const Categories = () => {
         </div>
         <div className="row">
           <img
-            src="https://images.pexels.com/photos/1159670/pexels-photo-1159670.jpeg?auto=compress&cs=tinysrgb&w=1600"
+            src="https://static01.nyt.com/images/2014/06/12/fashion/12SNEAKERS_SPAN-copy/12SNEAKERS_SPAN-copy-superJumbo-v2.jpg"
             alt=""
           />
           <button>
-            <Link to="/products/1" className="link">
-              Shoes
+            <Link to="/products/2" className="link">
+              Store
             </Link>
           </button>
         </div>
