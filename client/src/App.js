@@ -9,6 +9,7 @@ import "./app.scss"
 import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/Signup";
 import About from "./pages/AboutUs/about";
+import Transact from "./Transact"
 
 const Layout = () => {
   return (
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: <About/>,
+  },
+  {
+    path: "/transact",
+    element: <Transact/>,
   },
 ]);
 

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
@@ -23,9 +22,14 @@ const Navbar = () => {
   const handleClose = ()=>{
     setDialog(false);
   }
+  
   const handleLogout = async ()=>{
     await logOut();
     navigate("/login")
+  }
+
+  const handleToken = () => {
+    navigate("/transact")
   }
 
   return (
@@ -42,12 +46,9 @@ const Navbar = () => {
 
         {/* token area */}
         <div className="right">
-          <Button onClick={handleLogout}>
-            <Logout/>
-          </Button>
           <div className="token">
-              <Badge badgeContent={count} showZero color="primary" onClick={()=>setDialog(true)}>
-                <CurrencyBitcoin />
+              <Badge badgeContent={count} showZero color="primary">
+                <CurrencyBitcoin onClick={handleToken}/>
               </Badge>
           </div>
 
@@ -70,9 +71,12 @@ const Navbar = () => {
               <ShoppingCartOutlinedIcon/>
               <span>{products.length}</span>
             </div>
+
+              <Logout onClick={handleLogout}/>
           </div>
         </div>
       </div>
+      
       {open && <Cart/>} 
       
       {/* token dialog box */}

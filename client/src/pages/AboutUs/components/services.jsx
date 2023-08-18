@@ -9,7 +9,7 @@ function Services() {
       <div className="custom-container">
         <div className="custom-row">
           <div  className="custom-col-md-12 custom-text-center">
-            <h2 class="section-title">The Team Behind FlipMart</h2>
+            <h2 class="section-title">The Team Behind Sneak Kar</h2>
 
             <p class="section-subtitle">{message}</p>
           </div>
