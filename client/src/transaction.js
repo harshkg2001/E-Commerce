@@ -172,6 +172,7 @@ function Transaction() {
                     <tr>
                         <th>Time</th>
                         <th>TransactionHash</th>
+                        <th>Comments</th>
                         <th>Tokens</th>
                     </tr>
                 </thead>
@@ -180,6 +181,7 @@ function Transaction() {
                         <tr key={index}>
                             <td>{row.time}</td>
                             <td>{row.hash}</td>
+                            <td>{row.comment}</td>
                             <td>{row.value}</td>
                         </tr>
                     ))}

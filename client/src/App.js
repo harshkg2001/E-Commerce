@@ -11,6 +11,7 @@ import Signup from "./components/Auth/Signup";
 import About from "./pages/AboutUs/about";
 import Transaction from "./transaction";
 import Transfer from "./pages/Transfer/Transfer";
+import SharePopup from "./pages/share/share";
 
 const Layout = () => {
   return (
@@ -47,7 +48,10 @@ const router = createBrowserRouter([
         path: "/transfer",
         element: <Transfer/>,
       },
-
+      {
+        path: "/share",
+        element: <SharePopup/>,
+      },
     ],
   },
   {

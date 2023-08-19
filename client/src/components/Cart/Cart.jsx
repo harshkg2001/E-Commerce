@@ -76,7 +76,8 @@ const Cart = ({setOpen}) => {
           const item1 = {
             hash: burnTransaction.hash,
             time: new Date().toLocaleString(),
-            value: -parseInt(Math.min(100, parseInt(token)))
+            value: -parseInt(Math.min(100, parseInt(token))),
+            comment: "Burned"
           }
           // setPayments([item1, ...payments])
 
@@ -97,7 +98,8 @@ const Cart = ({setOpen}) => {
       const item2 = {
         hash:transactionResponse.hash,
         time: new Date().toLocaleString(),
-        value: Math.min(50, parseInt((totalPrice() - Math.min(100, parseInt(token))*10)/100))
+        value: Math.min(50, parseInt((totalPrice() - Math.min(100, parseInt(token))*10)/100)),
+        comment: "Minted"
       }
 
 
