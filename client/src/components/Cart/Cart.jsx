@@ -72,16 +72,18 @@ const Cart = ({setOpen}) => {
         // always being called.
         if(applied){
           const burnTransaction = await contract.burn(address, parseInt(Math.min(100, parseInt(token))));
-          
+          console.log(burnTransaction);
           const item1 = {
             hash: burnTransaction.hash,
             time: new Date().toLocaleString(),
             value: -parseInt(Math.min(100, parseInt(token)))
           }
-          setPayments([item1, ...payments])
+          // setPayments([item1, ...payments])
+
+          setPayments(prevArray => [item1, ...prevArray]);
         }
         
-        const transactionResponse = await contract.mint(address, Math.min(200, parseInt((totalPrice() - Math.min(200, parseInt(token))*10)/10))); // yaha pe uska addresss aa jayega
+        const transactionResponse = await contract.mint(address, Math.min(50, parseInt((totalPrice() - Math.min(100, parseInt(token))*10)/100))); // yaha pe uska addresss aa jayega
         
         
         // Wait for the transaction to be mined and confirmed
@@ -95,11 +97,12 @@ const Cart = ({setOpen}) => {
       const item2 = {
         hash:transactionResponse.hash,
         time: new Date().toLocaleString(),
-        value: Math.min(50, parseInt((totalPrice() - Math.min(100, parseInt(token))*10)/200))
+        value: Math.min(50, parseInt((totalPrice() - Math.min(100, parseInt(token))*10)/100))
       }
 
 
-      setPayments([item2, ...payments])
+      // setPayments([item2, ...payments])
+      setPayments(prevArray => [item2, ...prevArray]);
  
       const res = await makeRequest.post("/orders", {
         products,
