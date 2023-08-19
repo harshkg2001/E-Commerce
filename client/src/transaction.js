@@ -182,7 +182,7 @@ function Transaction() {
                             <td>{row.time}</td>
                             <td>{row.hash}</td>
                             <td>{row.comment}</td>
-                            <td>{row.value}</td>
+                            <td className={row.value<0 ? 'negative-value': 'positive-value'}>{row.value}</td>
                         </tr>
                     ))}
                 </tbody>

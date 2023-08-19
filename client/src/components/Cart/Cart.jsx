@@ -79,14 +79,16 @@ const Cart = ({setOpen}) => {
             value: -parseInt(Math.min(100, parseInt(token))),
             comment: "Burned"
           }
+          
           // setPayments([item1, ...payments])
-
           setPayments(prevArray => [item1, ...prevArray]);
         }
         
         const transactionResponse = await contract.mint(address, Math.min(50, parseInt((totalPrice() - Math.min(100, parseInt(token))*10)/100))); // yaha pe uska addresss aa jayega
         
-        
+        console.log("minting start...")
+        console.log(transactionResponse);
+
         // Wait for the transaction to be mined and confirmed
         const receipt = await transactionResponse.wait();
         const balance = await contract.balanceOf(address);
