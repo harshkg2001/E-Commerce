@@ -10,11 +10,12 @@ import { useSelector } from "react-redux";
 import { Badge, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon, IconButton, Typography } from "@mui/material";
 import {CurrencyBitcoin, Logout} from "@mui/icons-material"
 import useAuth from "../../hooks/useAuth";
+import useToken from "../../hooks/useToken";
 
 const Navbar = () => {
-  const [open,setOpen] = useState(false)
+  const [open, setOpen] = useState(false)
   const products = useSelector((state) => state.cart.products);
-  const [count, setCount] = useState(0);
+  const {token, setToken} = useToken()
   const [dialog, setDialog] = useState(false);
   const {logOut} = useAuth()
   const navigate = useNavigate()
@@ -29,7 +30,7 @@ const Navbar = () => {
   }
 
   const handleToken = () => {
-    navigate("/transact")
+    navigate("/transaction")
   }
 
   return (
@@ -47,8 +48,10 @@ const Navbar = () => {
         {/* token area */}
         <div className="right">
           <div className="token">
-              <Badge badgeContent={count} showZero color="primary">
-                <CurrencyBitcoin onClick={handleToken}/>
+              <Badge badgeContent={token || 0} showZero color="primary">
+                {/* <IconButton> */}
+                  <CurrencyBitcoin onClick={handleToken}/>
+                {/* </IconButton> */}
               </Badge>
           </div>
 
@@ -56,10 +59,10 @@ const Navbar = () => {
             <Link className ="link" to="/">Home</Link>
           </div>
           <div className="item">
-            <Link className ="link" to="/about">About</Link>
+            <Link className ="link" to="/transfer">Transfer</Link>
           </div>
           <div className="item">
-            <Link className ="link" to="/">Contact Us</Link>
+            <Link className ="link" to="/about">About</Link>
           </div>
           
           <div className="icons">
@@ -77,14 +80,14 @@ const Navbar = () => {
         </div>
       </div>
       
-      {open && <Cart/>} 
+      {open && <Cart setOpen={setOpen}/>} 
       
       {/* token dialog box */}
-      <Dialog open={dialog} onClose={handleClose} fullWidth>
+      {/* <Dialog open={dialog} onClose={handleClose} fullWidth>
         <DialogTitle variant="h3">Available Tokens</DialogTitle>
         <DialogContent>
           <Typography variant="h6">
-            Total tokens : {count}
+            Total tokens : {token || "Not present !"}
           </Typography>
           <Typography variant="h6">
             Days before expiry: 28 
@@ -97,7 +100,7 @@ const Navbar = () => {
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 };

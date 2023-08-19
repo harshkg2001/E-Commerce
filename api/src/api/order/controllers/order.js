@@ -1,4 +1,3 @@
-
 ("use strict");
 const Stripe = require('stripe')
 const stripe = new Stripe.Stripe(process.env.STRIPE_KEY, {

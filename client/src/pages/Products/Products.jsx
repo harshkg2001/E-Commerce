@@ -83,7 +83,7 @@ const Products = () => {
       <div className="right">
         <img
           className="catImg"
-          src="https://images.pexels.com/photos/1074535/pexels-photo-1074535.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          src="https://culted.com/wp-content/uploads/2022/10/a1e8f6671a9476a30b59d65af728549b8fada211-1100x735-1.jpg"
           alt=""
         />
         <List catId={catId} maxPrice={maxPrice} sort={sort} subCats={selectedSubCats}/>
