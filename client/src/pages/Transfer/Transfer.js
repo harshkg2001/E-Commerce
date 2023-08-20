@@ -25,6 +25,7 @@ const Transfer = () => {
         const contract = new ethers.Contract(contractAddress, contractABI, wallet);
 
         try {
+            
             // Call the transfer function to send tokens to the specified address
             const transactionResponse = await contract.transfer(toAddress, amount);
 

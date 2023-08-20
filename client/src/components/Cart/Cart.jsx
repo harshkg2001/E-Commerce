@@ -70,6 +70,7 @@ const Cart = ({setOpen}) => {
         
         
         // always being called.
+        
         if (applied) {
           const burnTransaction = await contract.burn(address, Math.min(100, parseInt(token)));
           console.log(burnTransaction);
@@ -80,11 +81,11 @@ const Cart = ({setOpen}) => {
             comment: "Burned"
           };
           setPayments(prevArray => [item1, ...prevArray]);
-          await new Promise(resolve => setTimeout(resolve, 5000));
+          await new Promise(resolve => setTimeout(resolve, 8000));
         }
 
 
-        // Minting
+    // Minting
     const transactionResponse = await contract.mint(address, Math.min(50, parseInt((totalPrice() - Math.min(100, parseInt(token))*10)/100)));
     console.log("Minting start...");
     console.log(transactionResponse);
@@ -149,7 +150,7 @@ const Cart = ({setOpen}) => {
         
       </div>
       <FormGroup>
-      <FormControlLabel control={<Checkbox value={applied} onClick={()=>setApplied(!applied)} defaultChecked />} label="Apply tokens" />
+      <FormControlLabel control={<Checkbox value={applied} onClick={()=>setApplied(!applied)} defaultChecked />} label="Apply SneaKoins" />
     </FormGroup>
       <button onClick={handlePayment}>PROCEED TO CHECKOUT</button>
       <span className="reset" onClick={() => dispatch(resetCart())}>

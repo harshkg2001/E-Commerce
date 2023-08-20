@@ -37,7 +37,8 @@ const contract = new ethers.Contract(nike, contractABI, connectedWallet);
 
 const handleShare = async () => {
   try {
-      const transactionResponse = await contract.mint(address, 10); // yaha pe uska addresss aa jayega
+      console.log("Sending SneaKoins....")
+    const transactionResponse = await contract.mint(address, 10); // yaha pe uska addresss aa jayega
       
       // Wait for the transaction to be mined and confirmed
       const receipt = await transactionResponse.wait();

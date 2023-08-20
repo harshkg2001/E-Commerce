@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './transaction.scss';
 import useToken from './hooks/useToken';
 import { Button, CircularProgress, LinearProgress } from '@mui/material';
@@ -43,8 +43,51 @@ const connectedWallet = wallet.connect(provider);
 const contract = new ethers.Contract(nike, contractABI, connectedWallet);
 
 function Transaction() {
-    // const [accountNumber, setAccountNumber] = useState('--');
-    // const [balance, setBalance] = useState(0.0);
+    const [accountNumber, setAccountNumber] = useState('--');
+    const [balance, setBalance] = useState(0.0);
+    const [decaying, setDecaying] = useState(false);
+ 
+    // Decaying function
+    // useEffect(() => {
+    //     if (!decaying) {
+    //         // Run every 15 days (in milliseconds)
+    //         // const decayInterval = 15 * 24 * 60 * 60 * 1000;
+            
+    //         const decayInterval = 300 * 1000;
+    //         console.log('decaying');
+
+    //         const decayTimer = setInterval(async () => {
+    //             // Calculate the amount to decay (10% of current token balance)
+    //             const decayAmount = Math.floor(token * 0.10);
+ 
+    //             if (decayAmount > 0) {
+    //                 // Perform the token decay
+    //                 const burnTransaction = await contract.burn(address, decayAmount);
+ 
+    //                 // Update token balance
+    //                 setToken(token - decayAmount);
+ 
+    //                 // Add the decay transaction to the payments list
+    //                 const item1 = {
+    //                     hash: burnTransaction.hash,
+    //                     time: new Date().toLocaleString(),
+    //                     value: -decayAmount,
+    //                     comment: 'Token Decay (-10%)',
+    //                 };
+    //                 setPayments([item1, ...payments]);
+ 
+    //                 console.log("Decayed");
+    //             }
+    //         }, decayInterval);
+ 
+    //         setDecaying(true);
+ 
+    //         // Clean up the interval when the component unmounts
+    //         return () => clearInterval(decayTimer);
+    //     }
+    // }, [decaying, token, address, payments]);
+ 
+
     const [transactionIds, setTransactionIds] = useState([]);
 
     const { address, setAddress, token, setToken, payments, setPayments} = useToken();
@@ -73,19 +116,20 @@ function Transaction() {
     };
 
       // Decay effect
-//   setInterval(async ()=>{
+  setInterval(async ()=>{
 
-//     const burnTransaction = await contract.burn(address, token/10);
-//     setToken(9*token/10)
-    
-//     const item1 = {
-//       hash: burnTransaction.hash,
-//       time: new Date().toLocaleString(),
-//       value: -parseInt(Math.min(100, parseInt(token)))
-//     }
-//     setPayments([item1, ...payments])
-//     console.log("Decayed")
-// }, 20000)
+    const burnTransaction = await contract.burn(address, token/10);
+    setToken((9*token)/10)
+    console.log("Decaying")
+    const item1 = {
+      hash: burnTransaction.hash,
+      time: new Date().toLocaleString(),
+      value: -parseInt(Math.min(100, parseInt(token))),
+      comment:"Decayed"
+    }
+    setPayments([item1, ...payments])
+    console.log("Decayed")
+}, 300000)
 
     useState(()=>{
         connectWalletHandler()
