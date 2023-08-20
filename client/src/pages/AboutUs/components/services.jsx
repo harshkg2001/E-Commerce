@@ -1,6 +1,8 @@
 import React from "react";
+import yvc from "./yvc.jpg" 
+import harsh from "./harsh.jpeg"
+import aniket from "./Aniket.jpg";
 import "./services.css";
-
 
 function Services() {
   let message ="";
@@ -17,18 +19,24 @@ function Services() {
           <div className="custom-col-sm-6 custom-col-md-4">
             <div class="team-item">
               <img
-                src="https://demo.epic-webdesign.com/tf-pacifico/v1/images/team1a.jpg"
+                src={harsh}
                 class="team-img"
                 alt="pic"
               />
-              <h3>JOHNATHAN HAWKINS</h3>
+              <h3>Harsh Kumar Gupta</h3>
               <div class="team-info">
-                <p>Head of SEO</p>
+                <p>Team Leader</p>
+                <p>Developer</p>
               </div>
               <p>
-                Johnathan is our co-founder and has developed search strategies
-                for a variety of clients from international brands to medium
-                sized businesses for over five years.
+                Hey , I am Harsh Kumar Gupta ! Currently I am a final year student at IIT Guwahati pursuing Electrical 
+                and Electronics Engineering.
+              </p>
+              <p>
+              Mob No: 6204671112
+              </p>
+              <p>
+              Email Id: harshvsharsh2001@gmail.com
               </p>
 
               <ul class="team-icon">
@@ -57,21 +65,26 @@ function Services() {
           <div className="custom-col-sm-6 custom-col-md-4">
             <div class="team-item">
               <img
-                src="https://demo.epic-webdesign.com/tf-pacifico/v1/images/team2a.jpg"
+                src= {yvc}
                 class="team-img"
                 alt="pic"
               />
 
-              <h3>ALEXANDRA SMITHS</h3>
+              <h3>Yash Vijay Chute</h3>
 
               <div class="team-info">
-                <p>SEO Specialist</p>
+                <p>Developer</p>
+             
               </div>
 
               <p>
-                Graduating with a degree in Spanish and English, Alexandra has
-                always loved writing and now she’s lucky enough to do it as part
-                of her new job inside our agency.
+              Hey , I am Yash Vijay Chute ! Currently I am a final year student at IIT Guwahati pursuing Chemical Engineering.
+              </p>
+              <p>
+              Mob No: 9156945102
+              </p>
+              <p>
+              Email Id: yashvijay1002@gmail.com
               </p>
 
               <ul class="team-icon">
@@ -99,26 +112,30 @@ function Services() {
           <div className="custom-col-sm-6 custom-col-md-4">
             <div class="team-item">
               <img
-                src="https://demo.epic-webdesign.com/tf-pacifico/v1/images/team3a.jpg"
+                src= {aniket}
                 class="team-img"
                 alt="pic"
               />
 
-              <h3>ELISA JOHANSON</h3>
+              <h3>Aniket Kumar</h3>
 
               <div class="team-info">
-                <p>Marketing Manager</p>
+                <p>Developer</p>
               </div>
 
               <p>
-                Elisa first fell in love with digital marketing at the
-                university. He loves to learn, and looks forward to being part
-                of this new exciting industry for many years.
+              Hey , I am Aniket Kumar ! Currently I am a final year student at IIT Guwahati pursuing Electrical 
+                and Electronics Engineering.
               </p>
+              <p> </p>
+              <p>Mob no: 7099539869</p>
+              <p>Email Id: fabaniket246@gmail.com</p>
 
               <ul class="team-icon">
               <li>
-                  
+              <a href="#" class="twitter">
+                    <img class="fa fa-twitter"></img>
+                  </a>
                 </li>
 
                 <li>

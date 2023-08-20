@@ -70,53 +70,46 @@ const Cart = ({setOpen}) => {
         
         
         // always being called.
-        if(applied){
-          const burnTransaction = await contract.burn(address, parseInt(Math.min(100, parseInt(token))));
+        if (applied) {
+          const burnTransaction = await contract.burn(address, Math.min(100, parseInt(token)));
           console.log(burnTransaction);
           const item1 = {
             hash: burnTransaction.hash,
             time: new Date().toLocaleString(),
             value: -parseInt(Math.min(100, parseInt(token))),
             comment: "Burned"
-          }
-          
-          // setPayments([item1, ...payments])
+          };
           setPayments(prevArray => [item1, ...prevArray]);
+          await new Promise(resolve => setTimeout(resolve, 5000));
         }
-        
-        const transactionResponse = await contract.mint(address, Math.min(50, parseInt((totalPrice() - Math.min(100, parseInt(token))*10)/100))); // yaha pe uska addresss aa jayega
-        
-        console.log("minting start...")
-        console.log(transactionResponse);
-
-        // Wait for the transaction to be mined and confirmed
-        const receipt = await transactionResponse.wait();
-        const balance = await contract.balanceOf(address);
-        setToken(parseInt(balance));
- 
-      console.log('Transaction receipt:', receipt);
 
 
-      const item2 = {
-        hash:transactionResponse.hash,
-        time: new Date().toLocaleString(),
-        value: Math.min(50, parseInt((totalPrice() - Math.min(100, parseInt(token))*10)/100)),
-        comment: "Minted"
-      }
+        // Minting
+    const transactionResponse = await contract.mint(address, Math.min(50, parseInt((totalPrice() - Math.min(100, parseInt(token))*10)/100)));
+    console.log("Minting start...");
+    console.log(transactionResponse);
 
+    // Wait for the transaction to be mined and confirmed
+    const receipt = await transactionResponse.wait();
+    const balance = await contract.balanceOf(address);
+    setToken(parseInt(balance));
 
-      // setPayments([item2, ...payments])
-      setPayments(prevArray => [item2, ...prevArray]);
- 
-      const res = await makeRequest.post("/orders", {
-        products,
-      });
-      
-      // await stripe.redirectToCheckout({
-      //   sessionId: res.data.stripeSession.id,
-      // });
-      
-      navigate("/")
+    console.log('Transaction receipt:', receipt);
+
+    const item2 = {
+      hash:transactionResponse.hash,
+      time: new Date().toLocaleString(),
+      value: Math.min(50, parseInt((totalPrice() - Math.min(100, parseInt(token))*10)/100)),
+      comment: "Minted"
+    };
+
+    setPayments(prevArray => [item2, ...prevArray]);
+
+    const res = await makeRequest.post("/orders", {
+      products,
+    });
+
+      // navigate("/")
  
     } catch (err) {
       console.log(err);

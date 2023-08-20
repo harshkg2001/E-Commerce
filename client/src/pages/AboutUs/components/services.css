@@ -7,6 +7,15 @@
 	clear: both;
 	display: table;
 }
+h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 5px 10px;
+    /* border: 1px solid #007bff; */
+    border-radius: 10px;
+  }
 .custom-container {
 	width: 100%;
 	padding-right: 15px;
@@ -62,7 +71,7 @@
 }
 
 .team-item:hover{
-	background: #3956de;
+	background: #3a6be6;
 	color: white;
 }
 
@@ -167,9 +176,4 @@ ul.team-icon li a.dribble{
 	-ms-transition: all 0.25s ease-in-out;
 	-o-transition: all 0.25s ease-in-out;
 	transition: all 0.25s ease-in-out;
-}
-
-a{
-	text-decoration: none;
-	color: black;
 }
