@@ -5,18 +5,10 @@ import { Button, CircularProgress, LinearProgress } from '@mui/material';
 import "./table.css"
 const { ethers } = require('ethers');
 
-
-
-
-
 // yea kyu kiya??
-
-
-
 
 const valueInWei = ethers.utils.parseEther('2.5');
 const formatEther = ethers.utils.formatEther(valueInWei);
-
 
 // import { ethers } from 'ethers';
 // Replace with your actual private key
@@ -184,6 +176,9 @@ function Transaction() {
     // console.log(sktToken);a;
     // console.log(adsToken);
 
+    let trans_history = JSON.parse(localStorage.getItem('info')) || [];
+    console.log("history", trans_history);
+
     return (
 
         <div id="tran">
@@ -201,7 +196,7 @@ function Transaction() {
                 <header className="App-header">
                     <h1>Account Overview</h1>
                     {loading ? (
-                        <CircularProgress style={{ color: 'white' }}/>
+                        <CircularProgress style={{ color: 'white' }} />
                     ) : (
                         <div>
                             <div className='top-info'>
@@ -236,9 +231,9 @@ function Transaction() {
                     )}
                 </header>
             </div>
-            
+
             <h1 className="transaction-heading">Transaction IDs</h1>
-            <ul className="transaction-list">
+            {/* <ul className="transaction-list">
                 {transactionIds.map(transactionId => (
                     <li key={transactionId} className="transaction-item">
                         {transactionId}
@@ -256,16 +251,47 @@ function Transaction() {
                         </tr>
                     </thead>
                     <tbody>
-                        {payments.map((row, index) => (
-                            <tr key={index}>
-                                <td>{row.time}</td>
-                                <td>{row.hash}</td>
-                                <td>{row.comment}</td>
-                                <td className={row.value < 0 ? 'negative-value' : 'positive-value'}>{row.value}</td>
-                            </tr>
-                        ))}
+                        {trans_history.map((inner_history, index) =>
+                            inner_history.map((row, innerindex) => ( // Corrected arrow function syntax
+                                <tr key={`${index}-${innerindex}`}>
+                                    <td>{row.time}</td>
+                                    <td>{row.hash}</td>
+                                    <td>{row.comment}</td>
+                                    <td className={row.value < 0 ? 'negative-value' : 'positive-value'}>{row.value}</td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
+            </div> */}
+            <div className="history-container">
+                {trans_history.map((inner_history, index) => (
+                    <div key={index} className="inner-history">
+                        <h2>Transaction {trans_history.length - index}</h2>
+                        <div className="table-container">
+                            <table className='styled-table'>
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>TransactionHash</th>
+                                        <th>Comments</th>
+                                        <th>Tokens</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {inner_history.map((row, innerindex) => ( // Corrected arrow function syntax
+                                        <tr key={`${index}-${innerindex}`}>
+                                            <td>{row.time}</td>
+                                            <td>{row.hash}</td>
+                                            <td>{row.comment}</td>
+                                            <td className={row.value < 0 ? 'negative-value' : 'positive-value'}>{row.value}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );

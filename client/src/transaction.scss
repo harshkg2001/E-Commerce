@@ -162,3 +162,19 @@
   h1{
     padding-bottom: 40px;
   }
+
+  // -------------------------------------------------------
+
+.history-container {
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* Container for each inner history */
+.inner-history {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 10px
+}
+

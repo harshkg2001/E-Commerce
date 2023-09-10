@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Transfer.scss'; // Import your CSS file for styling
 import useToken from '../../hooks/useToken';
 import { CircularProgress } from '@mui/material';
- 
+
 const { ethers } = require('ethers');
 const object = {
     nike: '0x9e84dc3b653E63806FFA245f52ba49C0c3A959e8',
@@ -11,36 +11,36 @@ const object = {
     rbk: '0x1570F2dA362840Ca18f01A0F6bC0bBb671E86e0A',
     skt: '0xA242C57922e5e18A532f201945be4e3bC3465897',
 }
- 
- 
+
+
 const Transfer = () => {
     const [sender, setSender] = useState('');
     // const [tranferToken, setTransferToken] = useState('');
-    const [contractAddress, setContractAddress] = useState(0);
+    const [contractAddress, setContractAddress] = useState("");
     const [receiver, setReceiver] = useState('');
     const [amount, setAmount] = useState('');
     const [loading, setLoading] = useState(false);
- 
+
     const { address, setAddress, token, setToken, payments, setPayments } = useToken();
- 
+
     const contractABI = require('../../ABI.json');
     const privateKey = sender;
     // const contractAddress = '0x9e84dc3b653E63806FFA245f52ba49C0c3A959e8'; // Replace with your contract address
     const providerUrl = 'https://rpc.ankr.com/eth_goerli';
- 
+
     async function transferTokens(fromPrivateKey, toAddress, amount) {
         const provider = new ethers.providers.JsonRpcProvider(providerUrl);
         const wallet = new ethers.Wallet(fromPrivateKey, provider);
         const contract = new ethers.Contract(contractAddress, contractABI, wallet);
- 
+
         try {
- 
+
             // Call the transfer function to send tokens to the specified address
             const transactionResponse = await contract.transfer(toAddress, amount);
- 
+
             // Wait for the transaction to be mined and confirmed
             const receipt = await transactionResponse.wait();
- 
+
             const item1 = {
                 hash: transactionResponse.hash,
                 time: new Date().toLocaleString(),
@@ -48,12 +48,12 @@ const Transfer = () => {
                 comment: "Transferred"
             }
             // setPayments([item1, ...payments])
- 
- 
+
+
             setPayments(prevArray => [item1, ...prevArray]);
- 
+
             console.log('Transfer transaction receipt:', receipt);
- 
+
             // Get updated balance of the 'to' address
             const balance = await contract.balanceOf(address);
             setToken(parseInt(balance));
@@ -62,18 +62,18 @@ const Transfer = () => {
             console.error('Error transferring tokens:', error);
         }
     }
- 
+
     const handleTransfer = async (event) => {
         console.log(contractAddress);
         event.preventDefault();
         setLoading(true)
         await transferTokens(sender, receiver, amount);
         setLoading(false)
- 
+
     };
- 
+
     // const isButtonDisabled = !sender || !receiver || !amount;
- 
+
     // return (
     //     <div className="transfer-container">
     //         <h1>Transfer Page</h1>
@@ -112,64 +112,72 @@ const Transfer = () => {
     const handleSelect = (event) => {
         setContractAddress(object[event.target.value])
     }
- 
+
     return (
         <div className="transfer-container">
             {
-                loading ? <CircularProgress/> : 
-                <form className="transfer-form">
-                    <h1>Transfer Page</h1>
-                    <div>
-                        <label htmlFor="sender"></label>
-                        <input
-                            type="password"
-                            id="sender"
-                            required
-                            placeholder='Enter your Private key'
-                            value={sender}
-                            onChange={(e) => setSender(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        {/* <label htmlFor="select_token">Select Token:</label> */}
-                        <select id="select_token" required onChange={handleSelect}>
-                            <option value="puma">puma</option>
-                            <option value="nike">nike</option>
-                            <option value="ads">ads</option>
-                            <option value="rbk">rbk</option>
-                            <option value="skt">skt</option>
-                        </select>
-                    </div>
-                    <div>
-                        {/* <label htmlFor="receiver">Enter Receiver's Address:</label> */}
-                        <input
-                            type="text"
-                            id="receiver"
-                            required
-                            placeholder="Enter Receiver's Address"
-                            value={receiver}
-                            onChange={(e) => setReceiver(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        {/* <label htmlFor="amount">Amount:</label> */}
-                        <input
-                            type="text"
-                            id="amount"
-                            value={amount}
-                            placeholder='Amount'
-                            required
-                            onChange={(e) => setAmount(e.target.value)}
-                        />
-                    </div>
-                    <button type='submit' className="transfer-button" onClick={handleTransfer}>
-                        Transfer
-                    </button>
-                </form>
+                loading ? <CircularProgress /> :
+                    <form className="transfer-form">
+                        <h1>Transfer Page</h1>
+                        <div className='total-form'>
+                            <div className='input_style'>
+                                <input className='sty'
+                                    type="password"
+                                    id="sender"
+                                    required
+                                    placeholder='Enter your Private key'
+                                    value={sender}
+                                    onChange={(e) => setSender(e.target.value)}
+                                />
+                            </div>
+                            <div className='input_style'>
+                                <input className='sty'
+                                    type="text"
+                                    id="receiver"
+                                    required
+                                    placeholder="Enter Receiver's Address"
+                                    value={receiver}
+                                    onChange={(e) => setReceiver(e.target.value)}
+                                />
+                            </div>
+                            <div className='middle-form'>
+                                <div className='input_style'>
+                                    <select className='middle-style' id="select_token" required onChange={handleSelect}>
+                                        <option value="" disabled>Select Token</option>
+                                        <option value="puma">puma</option>
+                                        <option value="nike">nike</option>
+                                        <option value="ads">ads</option>
+                                        <option value="rbk">rbk</option>
+                                        <option value="skt">skt</option>
+                                    </select>
+                                </div>
+                                <div className='input_style'>
+                                    <input className='middle-style'
+                                        type="text"
+                                        id="amount"
+                                        value={amount}
+                                        placeholder='Amount'
+                                        required
+                                        onChange={(e) => setAmount(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            <div className='input_style'>
+                                <input className='sty'
+                                    type="text"
+                                    id="amount"
+                                    placeholder='Remark'
+                                />
+                            </div>
+                        </div>
+                        <button type='submit' className="transfer-button" onClick={handleTransfer}>
+                            Transfer
+                        </button>
+                    </form>
             }
- 
+
         </div>
     );
 }
- 
+
 export default Transfer;

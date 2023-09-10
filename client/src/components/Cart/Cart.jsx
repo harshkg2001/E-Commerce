@@ -126,7 +126,7 @@ const Cart = ({setOpen}) => {
     const sktBalance = await contract_skt.balanceOf(address);
     const rbkBalance = await contract_rbk.balanceOf(address);
     const nikeBalance = await contract_nike.balanceOf(address);
-    console.log('Applid')
+    console.log('Applied')
     
       if(parseInt(nikeTotal)>0){
         if(parseInt(nikeBalance)){
@@ -175,204 +175,231 @@ const Cart = ({setOpen}) => {
   const handlePayment = async () => { 
     setOpen(false)
     try {
-      // const stripe = await loadStripe(
-        //   "pk_test_51NekqASJQ667AMLho75IXiOnIS3qfsX6arxvo1lllNo9nqGagV9ODEM0LmpXJFR5eUxYIoGxWry3y8xNXkxLI3j600Hw2X00ci"
-        // );
         
-        // Call a specific function of the contract
-        
-        // Burning
-        // await contract.burn(address, Math.min(100, parseInt(Math.min(100, parseInt(token)))));
-        
-        
-        // always being called.
+      // always being called.
+      // ---------------------------------------------------
+      // let history = JSON.parse(localStorage.getItem('data')) || [];
+      let history = [];
+      let trans_history = JSON.parse(localStorage.getItem('info')) || [];
+      // ---------------------------------------------------
 
-        const pumaBalance = await contract_puma.balanceOf(address);
-        const adsBalance = await contract_ads.balanceOf(address);
-        const sktBalance = await contract_skt.balanceOf(address);
-        const rbkBalance = await contract_rbk.balanceOf(address);
-        const nikeBalance = await contract_nike.balanceOf(address);
-        
-        
-        if (applied) {
-          if(parseInt(nikeTotal)){
-            if(parseInt(nikeBalance)){
-              const burnTransaction = await contract_nike.burn(address, Math.min(100, parseInt(nikeBalance)));
-              console.log(burnTransaction);
-              const item1 = {
-                hash: burnTransaction.hash,
-                time: new Date().toLocaleString(),
-                value: -parseInt(Math.min(100, parseInt(nikeBalance))),
-                comment: "Burned Nike Tokens"
-              };
-              setPayments(prevArray => [item1, ...prevArray]);
-              await new Promise(resolve => setTimeout(resolve, 5000));
-            }
+      const pumaBalance = await contract_puma.balanceOf(address);
+      const adsBalance = await contract_ads.balanceOf(address);
+      const sktBalance = await contract_skt.balanceOf(address);
+      const rbkBalance = await contract_rbk.balanceOf(address);
+      const nikeBalance = await contract_nike.balanceOf(address);
+      
+      
+      if (applied) {
+        if(parseInt(nikeTotal)){
+          if(parseInt(nikeBalance)){
+            const burnTransaction = await contract_nike.burn(address, Math.min(100, parseInt(nikeBalance)));
+            console.log(burnTransaction);
+            const item1 = {
+              hash: burnTransaction.hash,
+              time: new Date().toLocaleString(),
+              value: -parseInt(Math.min(100, parseInt(nikeBalance))),
+              comment: "Burned Nike Tokens"
+            };
+            // ------------------------------------------
+            history = [item1, ...history];
+            // ------------------------------------------
+            setPayments(prevArray => [item1, ...prevArray]);
+            await new Promise(resolve => setTimeout(resolve, 5000));
           }
-
-          if(parseInt(pumaTotal)){
-            if(parseInt(pumaBalance)){
-              const burnTransaction = await contract_puma.burn(address, Math.min(100, parseInt(pumaBalance)));
-              console.log(burnTransaction);
-              const item1 = {
-                hash: burnTransaction.hash,
-                time: new Date().toLocaleString(),
-                value: -parseInt(Math.min(100, parseInt(pumaBalance))),
-                comment: "Burned Puma Tokens"
-              };
-              setPayments(prevArray => [item1, ...prevArray]);
-              await new Promise(resolve => setTimeout(resolve, 5000));
-            }
-          }
-
-          if(parseInt(rbkTotal)){
-            if(parseInt(rbkBalance)){
-              const burnTransaction = await contract_rbk.burn(address, Math.min(100, parseInt(rbkBalance)));
-              console.log(burnTransaction);
-              const item1 = {
-                hash: burnTransaction.hash,
-                time: new Date().toLocaleString(),
-                value: -parseInt(Math.min(100, parseInt(rbkBalance))),
-                comment: "Burned Reebok Tokens"
-              };
-              setPayments(prevArray => [item1, ...prevArray]);
-              await new Promise(resolve => setTimeout(resolve, 5000));
-            }
-          }
-
-          if(parseInt(adsTotal)){
-            if(parseInt(adsBalance)){
-              const burnTransaction = await contract_ads.burn(address, Math.min(100, parseInt(adsBalance)));
-              console.log(burnTransaction);
-              const item1 = {
-                hash: burnTransaction.hash,
-                time: new Date().toLocaleString(),
-                value: -parseInt(Math.min(100, parseInt(adsBalance))),
-                comment: "Burned ADIDAS Tokens"
-              };
-              setPayments(prevArray => [item1, ...prevArray]);
-              await new Promise(resolve => setTimeout(resolve, 5000));
-            }
-          }
-          
-          // if(sktTotal){
-          //   if(sktBalance){
-          //     const burnTransaction = await contract_skt.burn(address, Math.min(100, parseInt(sktBalance)));
-          //     console.log(burnTransaction);
-          //     const item1 = {
-          //       hash: burnTransaction.hash,
-          //       time: new Date().toLocaleString(),
-          //       value: -parseInt(Math.min(100, parseInt(sktBalance))),
-          //       comment: "Burned Skechers Tokens"
-          //     };
-          //     setPayments(prevArray => [item1, ...prevArray]);
-          //     await new Promise(resolve => setTimeout(resolve, 5000));
-          //   }
-          // }
         }
+
+        if(parseInt(pumaTotal)){
+          if(parseInt(pumaBalance)){
+            const burnTransaction = await contract_puma.burn(address, Math.min(100, parseInt(pumaBalance)));
+            console.log(burnTransaction);
+            const item1 = {
+              hash: burnTransaction.hash,
+              time: new Date().toLocaleString(),
+              value: -parseInt(Math.min(100, parseInt(pumaBalance))),
+              comment: "Burned Puma Tokens"
+            };
+            // ------------------------------------------
+            history = [item1, ...history];
+            // ------------------------------------------
+            setPayments(prevArray => [item1, ...prevArray]);
+            await new Promise(resolve => setTimeout(resolve, 5000));
+          }
+        }
+
+        if(parseInt(rbkTotal)){
+          if(parseInt(rbkBalance)){
+            const burnTransaction = await contract_rbk.burn(address, Math.min(100, parseInt(rbkBalance)));
+            console.log(burnTransaction);
+            const item1 = {
+              hash: burnTransaction.hash,
+              time: new Date().toLocaleString(),
+              value: -parseInt(Math.min(100, parseInt(rbkBalance))),
+              comment: "Burned Reebok Tokens"
+            };
+            // ------------------------------------------
+            history = [item1, ...history];
+            // ------------------------------------------
+            setPayments(prevArray => [item1, ...prevArray]);
+            await new Promise(resolve => setTimeout(resolve, 5000));
+          }
+        }
+
+        if(parseInt(adsTotal)){
+          if(parseInt(adsBalance)){
+            const burnTransaction = await contract_ads.burn(address, Math.min(100, parseInt(adsBalance)));
+            console.log(burnTransaction);
+            const item1 = {
+              hash: burnTransaction.hash,
+              time: new Date().toLocaleString(),
+              value: -parseInt(Math.min(100, parseInt(adsBalance))),
+              comment: "Burned ADIDAS Tokens"
+            };
+            // ------------------------------------------
+            history = [item1, ...history];
+            // ------------------------------------------
+            setPayments(prevArray => [item1, ...prevArray]);
+            await new Promise(resolve => setTimeout(resolve, 5000));
+          }
+        }
+        
+        // if(sktTotal){
+        //   if(sktBalance){
+        //     const burnTransaction = await contract_skt.burn(address, Math.min(100, parseInt(sktBalance)));
+        //     console.log(burnTransaction);
+        //     const item1 = {
+        //       hash: burnTransaction.hash,
+        //       time: new Date().toLocaleString(),
+        //       value: -parseInt(Math.min(100, parseInt(sktBalance))),
+        //       comment: "Burned Skechers Tokens"
+        //     };
+        //     setPayments(prevArray => [item1, ...prevArray]);
+        //     await new Promise(resolve => setTimeout(resolve, 5000));
+        //   }
+        // }
+      }
  
  
-    // Minting
+      // Minting
 
-    if(parseInt(nikeTotal)){
-      const transactionResponse = await contract_nike.mint(address, Math.min(50, parseInt((nikeTotal - Math.min(100, parseInt(nikeBalance))*10)/100)));
-      console.log("Minting start...");
-      console.log(transactionResponse);
-  
-      // Wait for the transaction to be mined and confirmed
-      const receipt = await transactionResponse.wait();
-      const balance = await contract_nike.balanceOf(address);
-      setNikeToken(parseInt(balance));
-
-      console.log('Transaction receipt:', receipt);
-  
-      const item2 = {
-        hash:transactionResponse.hash,
-        time: new Date().toLocaleString(),
-        value: Math.min(50, parseInt((nikeTotal - Math.min(100, parseInt(nikeBalance))*10)/100)),
-        comment: "Minted Nike Token"
-      };
-  
-      setPayments(prevArray => [item2, ...prevArray]);
-      await new Promise(resolve => setTimeout(resolve, 5000));
-    }
-    if(parseInt(pumaTotal)){
-      const transactionResponse = await contract_puma.mint(address, Math.min(50, parseInt((pumaTotal - Math.min(100, parseInt(pumaBalance))*10)/100)));
-      console.log("Minting start...");
-      console.log(transactionResponse);
-  
-      // Wait for the transaction to be mined and confirmed
-      const receipt = await transactionResponse.wait();
-      const balance = await contract_puma.balanceOf(address);
-      setPumaToken(parseInt(balance));
-
-      console.log('Transaction receipt:', receipt);
-  
-      const item2 = {
-        hash:transactionResponse.hash,
-        time: new Date().toLocaleString(),
-        value: Math.min(50, parseInt((pumaTotal - Math.min(100, parseInt(pumaBalance))*10)/100)),
-        comment: "Minted Puma Token"
-      };
-  
-      setPayments(prevArray => [item2, ...prevArray]);
-      await new Promise(resolve => setTimeout(resolve, 5000));
-    }
-
-    if(parseInt(adsTotal)){
-      const transactionResponse = await contract_ads.mint(address, Math.min(50, parseInt((adsTotal - Math.min(100, parseInt(adsBalance))*10)/100)));
-      console.log("Minting start...");
-      console.log(transactionResponse);
-  
-      // Wait for the transaction to be mined and confirmed
-      const receipt = await transactionResponse.wait();
-      const balance = await contract_ads.balanceOf(address);
-      setAdsToken(parseInt(balance));
-
-      console.log('Transaction receipt:', receipt);
-  
-      const item2 = {
-        hash:transactionResponse.hash,
-        time: new Date().toLocaleString(),
-        value: Math.min(50, parseInt((adsTotal - Math.min(100, parseInt(adsBalance))*10)/100)),
-        comment: "Minted ADIDAS Token"
-      };
-  
-      setPayments(prevArray => [item2, ...prevArray]);
-      await new Promise(resolve => setTimeout(resolve, 5000));
-    }
-
-    if(parseInt(rbkTotal)){
-      const transactionResponse = await contract_rbk.mint(address, Math.min(50, parseInt((rbkTotal - Math.min(100, parseInt(rbkBalance))*10)/100)));
-      console.log("Minting start...");
-      console.log(transactionResponse);
-  
-      // Wait for the transaction to be mined and confirmed
-      const receipt = await transactionResponse.wait();
-      const balance = await contract_rbk.balanceOf(address);
-      setRbkToken(parseInt(balance));
-
-      console.log('Transaction receipt:', receipt);
-  
-      const item2 = {
-        hash:transactionResponse.hash,
-        time: new Date().toLocaleString(),
-        value: Math.min(50, parseInt((rbkTotal - Math.min(100, parseInt(rbkBalance))*10)/100)),
-        comment: "Minted Reebok Token"
-      };
-  
-      setPayments(prevArray => [item2, ...prevArray]);
-      await new Promise(resolve => setTimeout(resolve, 5000));
-    }
+      if(parseInt(nikeTotal)){
+        const transactionResponse = await contract_nike.mint(address, Math.min(50, parseInt((nikeTotal - Math.min(100, parseInt(nikeBalance))*10)/100)));
+        console.log("Minting start...");
+        console.log(transactionResponse);
     
- 
-    const res = await makeRequest.post("/orders", {
-      products,
-    });
- 
-      // navigate("/")
- 
-    } catch (err) {
+        // Wait for the transaction to be mined and confirmed
+        const receipt = await transactionResponse.wait();
+        const balance = await contract_nike.balanceOf(address);
+        setNikeToken(parseInt(balance));
+
+        console.log('Transaction receipt:', receipt);
+    
+        const item2 = {
+          hash:transactionResponse.hash,
+          time: new Date().toLocaleString(),
+          value: Math.min(50, parseInt((nikeTotal - Math.min(100, parseInt(nikeBalance))*10)/100)),
+          comment: "Minted Nike Token"
+        };
+
+        // ------------------------------------------
+        history = [item2, ...history];
+        // ------------------------------------------
+    
+        setPayments(prevArray => [item2, ...prevArray]);
+        await new Promise(resolve => setTimeout(resolve, 5000));
+      }
+      if(parseInt(pumaTotal)){
+        const transactionResponse = await contract_puma.mint(address, Math.min(50, parseInt((pumaTotal - Math.min(100, parseInt(pumaBalance))*10)/100)));
+        console.log("Minting start...");
+        console.log(transactionResponse);
+    
+        // Wait for the transaction to be mined and confirmed
+        const receipt = await transactionResponse.wait();
+        const balance = await contract_puma.balanceOf(address);
+        setPumaToken(parseInt(balance));
+
+        console.log('Transaction receipt:', receipt);
+    
+        const item2 = {
+          hash:transactionResponse.hash,
+          time: new Date().toLocaleString(),
+          value: Math.min(50, parseInt((pumaTotal - Math.min(100, parseInt(pumaBalance))*10)/100)),
+          comment: "Minted Puma Token"
+        };
+
+        // ------------------------------------------
+        history = [item2, ...history];
+        // ------------------------------------------
+    
+        setPayments(prevArray => [item2, ...prevArray]);
+        await new Promise(resolve => setTimeout(resolve, 5000));
+      }
+
+      if(parseInt(adsTotal)){
+        const transactionResponse = await contract_ads.mint(address, Math.min(50, parseInt((adsTotal - Math.min(100, parseInt(adsBalance))*10)/100)));
+        console.log("Minting start...");
+        console.log(transactionResponse);
+    
+        // Wait for the transaction to be mined and confirmed
+        const receipt = await transactionResponse.wait();
+        const balance = await contract_ads.balanceOf(address);
+        setAdsToken(parseInt(balance));
+
+        console.log('Transaction receipt:', receipt);
+    
+        const item2 = {
+          hash:transactionResponse.hash,
+          time: new Date().toLocaleString(),
+          value: Math.min(50, parseInt((adsTotal - Math.min(100, parseInt(adsBalance))*10)/100)),
+          comment: "Minted ADIDAS Token"
+        };
+
+        // ------------------------------------------
+        history = [item2, ...history];
+        // ------------------------------------------
+    
+        setPayments(prevArray => [item2, ...prevArray]);
+        await new Promise(resolve => setTimeout(resolve, 5000));
+      }
+
+      if(parseInt(rbkTotal)){
+        const transactionResponse = await contract_rbk.mint(address, Math.min(50, parseInt((rbkTotal - Math.min(100, parseInt(rbkBalance))*10)/100)));
+        console.log("Minting start...");
+        console.log(transactionResponse);
+    
+        // Wait for the transaction to be mined and confirmed
+        const receipt = await transactionResponse.wait();
+        const balance = await contract_rbk.balanceOf(address);
+        setRbkToken(parseInt(balance));
+
+        console.log('Transaction receipt:', receipt);
+    
+        const item2 = {
+          hash:transactionResponse.hash,
+          time: new Date().toLocaleString(),
+          value: Math.min(50, parseInt((rbkTotal - Math.min(100, parseInt(rbkBalance))*10)/100)),
+          comment: "Minted Reebok Token"
+        };
+
+        // ------------------------------------------
+        history = [item2, ...history];
+        // ------------------------------------------
+    
+        setPayments(prevArray => [item2, ...prevArray]);
+        await new Promise(resolve => setTimeout(resolve, 5000));
+      }
+      console.log("history", history);
+
+      trans_history = [history, ...trans_history];
+      localStorage.setItem('info', JSON.stringify(trans_history));
+  
+      const res = await makeRequest.post("/orders", {
+        products,
+      });
+
+    }
+    catch (err)
+    {
       console.log(err);
     }
   };

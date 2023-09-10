@@ -17,38 +17,56 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    margin: auto; /* Center horizontally */
+    width: 40%;
   }
   
   .transfer-form label {
     display: block;
     margin-bottom: 8px;
   }
-  
-  .transfer-form input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 12px;
-    border:  1px solid #ccc;
-    border-radius: 3px;
-    background-color: rgba(255, 255, 255, 0.9);
-    font-size: 16px;
+
+  .input_style{
+    padding: 1%;
+  }
+
+  .sty{
+    width: 500px;
+    padding: 2%;
+    border-radius: 5px;
+    border: 1px solid grey;
+  }
+
+  .middle-form{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .middle-style{
+    width: 252px;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    border-radius: 5px;
+    border: 1px solid grey; 
   }
   
   .transfer-button {
-    background-color: #3498db;
+    margin-left: -10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    background-color: #2879fe;
     color: white;
-    padding: 10px 20px;
     border: none;
     border-radius: 3px;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease-in-out;
+    width: 85%;
   }
   
   .transfer-button:hover {
-    background-color: #2980b9;
+    background-color: #4b8df9;
   }
- 
+  
+  .total-form{
+    margin-right: 5%;
+  }

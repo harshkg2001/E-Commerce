@@ -2,16 +2,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 25vh;
-    background-color: #f2f2f2;
+    /* background-color: #f2f2f2; */
+    border: 10px;
   }
   
   .styled-table {
     width: 80%;
     border-collapse: collapse;
     background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    border-radius: 10px;
   }
   
   .styled-table th,
@@ -21,7 +20,7 @@
   }
   
   .styled-table th {
-    background-color: #3498db;
+    background-color: #2879fe;
     color: white;
     font-weight: bold;
   }
@@ -34,4 +33,3 @@
     background-color: #e0e0e0;
     cursor: pointer;
   }
-  
