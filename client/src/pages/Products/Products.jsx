@@ -51,7 +51,7 @@ const Products = () => {
               type="range"
               min={0}
               max={20000}
-              onChange={(e) => setMaxPrice(e.target.value)}
+              onClick={(e) => setMaxPrice(e.target.value)}
             />
             <span>{maxPrice}</span>
           </div>

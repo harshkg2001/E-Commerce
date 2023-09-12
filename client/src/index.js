@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import AuthProvider from "./providers/AuthProvider";
 import TokenProvider from "./providers/TokenProvider";
+import TransactionProvider from "./providers/TransactionProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,9 +14,11 @@ root.render(
     <Provider store={store}>
       <PersistGate loading={"loading"} persistor={persistor}>
         <TokenProvider>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
+          <AuthProvider>
+            <TransactionProvider>
+              <App/>
+            </TransactionProvider>
+          </AuthProvider>
         </TokenProvider>
       </PersistGate>
     </Provider>

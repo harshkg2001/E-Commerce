@@ -8,10 +8,30 @@ import telegram from "./telegram.gif";
 import pinterest from './pinterest.gif';
 import linkedin from "./linkedin.gif";
 import useToken from '../../hooks/useToken';
+import useTransaction from '../../hooks/useTransaction';
+import { useDispatch } from 'react-redux';
+import { addToTxn } from '../../redux/txnReducer';
 const { ethers } = require('ethers');
 
 const SharePopup = () => {
-  const { address, setAddress, token, setToken, payments, setPayments } = useToken();
+  const {
+    token,
+    setToken,
+    pumaToken,
+    setPumaToken,
+    nikeToken,
+    setNikeToken,
+    adsToken,
+    setAdsToken,
+    rbkToken,
+    setRbkToken,
+    sktToken,
+    setSktToken,
+    address,
+    setAddress,
+    payments,
+    setPayments
+  } = useToken();
   // const contractABI = require('../../ABI.json');
   const privateKey = '24f17f06fca6eae7f28b581eaf83ec23ee62004f027bed726798ac2b22cae7ae';
  
@@ -35,6 +55,9 @@ const connectedWallet = wallet.connect(provider);
 // Create a contract instance
 const contract = new ethers.Contract(nike, contractABI, connectedWallet);
 
+const {transHistory, setTransHistory} = useTransaction();
+const dispatch=useDispatch();
+
 const handleShare = async () => {
   try {
       console.log("Sending SneaKoins....")
@@ -54,10 +77,18 @@ const handleShare = async () => {
       value: 10,
       comment: "Referral"
     }
+    setNikeToken(nikeToken+10);
+    setToken(token+10);
 
+    // --------------------------------------------------
+    let history = [];
+    history = [item2, ...history];
+
+    dispatch(addToTxn(history));
+    // --------------------------------------------------------
 
     // setPayments([item2, ...payments])
-    setPayments(prevArray => [item2, ...prevArray]);
+    // setPayments(prevArray => [item2, ...prevArray]);
   } catch (err) {
     console.log(err);
   }

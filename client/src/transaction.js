@@ -3,6 +3,9 @@ import './transaction.scss';
 import useToken from './hooks/useToken';
 import { Button, CircularProgress, LinearProgress } from '@mui/material';
 import "./table.css"
+import useTransaction from './hooks/useTransaction';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToTxn } from './redux/txnReducer';
 const { ethers } = require('ethers');
 
 // yea kyu kiya??
@@ -26,7 +29,7 @@ const contractABI = require('./ABI.json');
 const wallet = new ethers.Wallet(privateKey);
 
 // Set up the provider (Ethereum node)
-const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/eth_goerli');
+const provider = new ethers.providers.JsonRpcProvider('https://goerli.blockpi.network/v1/rpc/public');
 
 // Connect the wallet to the provider
 const connectedWallet = wallet.connect(provider);
@@ -43,56 +46,143 @@ function Transaction() {
     const [balance, setBalance] = useState(0.0);
     const [decaying, setDecaying] = useState(false);
 
-    // Decaying function
-    // useEffect(() => {
-    //     if (!decaying) {
-    //         // Run every 15 days (in milliseconds)
-    //         // const decayInterval = 15 * 24 * 60 * 60 * 1000;
-
-    //         const decayInterval = 300 * 1000;
-    //         console.log('decaying');
-
-    //         const decayTimer = setInterval(async () => {
-    //             // Calculate the amount to decay (10% of current token balance)
-    //             const decayAmount = Math.floor(token * 0.10);
-
-    //             if (decayAmount > 0) {
-    //                 // Perform the token decay
-    //                 const burnTransaction = await contract.burn(address, decayAmount);
-
-    //                 // Update token balance
-    //                 setToken(token - decayAmount);
-
-    //                 // Add the decay transaction to the payments list
-    //                 const item1 = {
-    //                     hash: burnTransaction.hash,
-    //                     time: new Date().toLocaleString(),
-    //                     value: -decayAmount,
-    //                     comment: 'Token Decay (-10%)',
-    //                 };
-    //                 setPayments([item1, ...payments]);
-
-    //                 console.log("Decayed");
-    //             }
-    //         }, decayInterval);
-
-    //         setDecaying(true);
-
-    //         // Clean up the interval when the component unmounts
-    //         return () => clearInterval(decayTimer);
-    //     }
-    // }, [decaying, token, address, payments]);
-
-
     const [transactionIds, setTransactionIds] = useState([]);
 
     const { token, setToken, pumaToken, setPumaToken, nikeToken, setNikeToken, adsToken, setAdsToken, rbkToken, setRbkToken, sktToken, setSktToken, address, setAddress, payments, setPayments } = useToken();
     const [errorMessage, setErrorMessage] = useState(null);
     const [connButtonText, setConnButtonText] = useState('Connect Wallet');
     const [loading, setLoading] = useState(false)
+
+    const {transHistory, setTransHistory} = useTransaction();
+
+    // ----------------------------------------------------------------
+    const transactions = useSelector((state) => state.txn.transactions) || [];
+    // ----------------------------------------------------------------
+    // ----------------------------------------------------------------
+    const [history, setHistory]=useState([]);
+    const dispatch = useDispatch();
+    // ----------------------------------------------------------------
+
+    // Decaying function
+    useEffect(() => {
+        if (decaying) {
+            // Run every 15 days (in milliseconds)
+            // const decayInterval = 15 * 24 * 60 * 60 * 1000;
+
+            const decayInterval = 300 * 1000;
+            console.log('decaying');
+
+            const decayTimer = setInterval(async () => {
+                // Calculate the amount to decay (10% of current token balance)
+                const balance_nike = await contract_nike.balanceOf(address);
+                const balance_puma = await contract_puma.balanceOf(address);
+                const balance_ads = await contract_ads.balanceOf(address);
+                const balance_rbk = await contract_rbk.balanceOf(address);
+                const balance_skt = await contract_skt.balanceOf(address);
+
+                const decayAmountNike = Math.floor(balance_nike * 0.10);
+                const decayAmountPuma = Math.floor(balance_puma * 0.10); 
+                const decayAmountAds = Math.floor(balance_ads * 0.10);
+                const decayAmountRbk = Math.floor(balance_rbk * 0.10);
+                const decayAmountskt = Math.floor(balance_skt * 0.10);
+
+                if (decayAmountNike > 0) {
+                    // Perform the token decay
+                    const burnTransaction = await contract_nike.burn(address, decayAmountNike);
+
+                    // Update token balance
+                    // setNikeToken(balance_nike - decayAmountNike);
+
+                    // Add the decay transaction to the payments list
+                    const item1 = {
+                        hash: burnTransaction.hash,
+                        time: new Date().toLocaleString(),
+                        value: -decayAmountNike,
+                        comment: 'Nike Token Decay (-10%)',
+                    };
+
+                    setHistory(prev => [item1, ...prev]);
+                    console.log("Nike Decayed");
+                    await new Promise(resolve => setTimeout(resolve, 8000));
+                }
+                if(decayAmountPuma>0){
+                    const burnTransaction = await contract_puma.burn(address, decayAmountNike);
+
+                    // Update token balance
+                    // setPumaToken(balance_puma - decayAmountPuma);
+
+                    // Add the decay transaction to the payments list
+                    const item1 = {
+                        hash: burnTransaction.hash,
+                        time: new Date().toLocaleString(),
+                        value: -decayAmountPuma,
+                        comment: 'Puma Token Decay (-10%)',
+                    };
+
+                    setHistory(prev => [item1, ...prev]);
+                    // setPayments([item1, ...payments]);
+
+                    console.log("Puma Decayed");
+                    await new Promise(resolve => setTimeout(resolve, 8000));
+                }
+                if(decayAmountAds>0){
+                    const burnTransaction = await contract_ads.burn(address, decayAmountAds);
+
+                    // Update token balance
+                    // setAdsToken(balance_ads - decayAmountAds);
+
+                    // Add the decay transaction to the payments list
+                    const item1 = {
+                        hash: burnTransaction.hash,
+                        time: new Date().toLocaleString(),
+                        value: -decayAmountAds,
+                        comment: 'ADIDAS Token Decay (-10%)',
+                    };
+
+                    setHistory(prev => [item1, ...prev]);
+                    // setPayments([item1, ...payments]);
+
+                    console.log("ADIDAS Decayed");
+                    await new Promise(resolve => setTimeout(resolve, 8000));
+                }
+
+                if(decayAmountRbk>0){
+                    const burnTransaction = await contract_rbk.burn(address, decayAmountRbk);
+
+                    // Update token balance
+                    // setRbkToken(balance_rbk - decayAmountRbk);
+
+                    // Add the decay transaction to the payments list
+                    const item1 = {
+                        hash: burnTransaction.hash,
+                        time: new Date().toLocaleString(),
+                        value: -decayAmountRbk,
+                        comment: 'Reebok Token Decay (-10%)',
+                    };
+
+                    setHistory(prev => [item1, ...prev]);
+                    // setPayments([item1, ...payments]);
+
+                    console.log("Reebok Decayed");
+                    await new Promise(resolve => setTimeout(resolve, 8000));
+                }
+            }, decayInterval);
+
+
+            console.log("history", history);
+            
+            dispatch(addToTxn(history))
+            
+            // Clean up the interval when the component unmounts
+        }
+    }, [decaying, pumaToken, nikeToken, rbkToken, adsToken, address]);
+
+
     const accountChangeHandler = async (newAccount) => {
         setLoading(true)
         setAddress(newAccount);
+        // setDecaying(true);
+
         // getUserBalance(newAccount.toString());
         const balance_nike = await contract_nike.balanceOf(address);
         const balance_puma = await contract_puma.balanceOf(address);
@@ -109,8 +199,10 @@ function Transaction() {
         setAdsToken(parseInt(balance_ads));
         setRbkToken(parseInt(balance_rbk));
         setSktToken(parseInt(balance_skt));
-        setLoading(false)
+        setLoading(false);
     };
+
+    // To connect users metamask account
     const connectWalletHandler = () => {
         if (window.ethereum) {
             window.ethereum.request({ method: 'eth_requestAccounts' })
@@ -138,10 +230,10 @@ function Transaction() {
     //     console.log("Decayed")
     // }, 300000)
 
-    useState(() => {
-        connectWalletHandler()
-        console.log('Connecting')
-    }, [address, pumaToken])
+    // useState(() => {
+    //     connectWalletHandler()
+    //     console.log('Connecting')
+    // }, [address, pumaToken, token])
 
     // const getUserBalance = (address) => {
     //     window.ethereum.request({ method: 'eth_getBalance', params: [address, 'latest'] })
@@ -176,8 +268,7 @@ function Transaction() {
     // console.log(sktToken);a;
     // console.log(adsToken);
 
-    let trans_history = JSON.parse(localStorage.getItem('info')) || [];
-    console.log("history", trans_history);
+    console.log("history", transHistory);
 
     return (
 
@@ -219,7 +310,7 @@ function Transaction() {
                                     <div className="token-value">{rbkToken}</div>
                                 </div>
                                 <div className="token-info">
-                                    <div className="token-label">Sketchers Tokens</div>
+                                    <div className="token-label">Skechers Tokens</div>
                                     <div className="token-value">{sktToken}</div>
                                 </div>
                                 <div className="token-info">
@@ -231,7 +322,6 @@ function Transaction() {
                     )}
                 </header>
             </div>
-
             <h1 className="transaction-heading">Transaction IDs</h1>
             {/* <ul className="transaction-list">
                 {transactionIds.map(transactionId => (
@@ -264,35 +354,37 @@ function Transaction() {
                     </tbody>
                 </table>
             </div> */}
-            <div className="history-container">
-                {trans_history.map((inner_history, index) => (
-                    <div key={index} className="inner-history">
-                        <h2>Transaction {trans_history.length - index}</h2>
-                        <div className="table-container">
-                            <table className='styled-table'>
-                                <thead>
-                                    <tr>
-                                        <th>Time</th>
-                                        <th>TransactionHash</th>
-                                        <th>Comments</th>
-                                        <th>Tokens</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {inner_history.map((row, innerindex) => ( // Corrected arrow function syntax
-                                        <tr key={`${index}-${innerindex}`}>
-                                            <td>{row.time}</td>
-                                            <td>{row.hash}</td>
-                                            <td>{row.comment}</td>
-                                            <td className={row.value < 0 ? 'negative-value' : 'positive-value'}>{row.value}</td>
+            {loading ? (<div className='circular'><CircularProgress /></div>) : (
+                <div className="history-container">
+                    {transactions.map((inner_history, index) => (
+                        <div key={index} className="inner-history">
+                            <h2>Transaction {transactions.length - index}</h2>
+                            <div className="table-container">
+                                <table className='styled-table'>
+                                    <thead>
+                                        <tr>
+                                            <th>Time</th>
+                                            <th>TransactionHash</th>
+                                            <th>Comments</th>
+                                            <th>Tokens</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {inner_history.map((row, innerindex) => ( // Corrected arrow function syntax
+                                            <tr key={`${index}-${innerindex}`}>
+                                                <td>{row.time}</td>
+                                                <td>{row.hash}</td>
+                                                <td>{row.comment}</td>
+                                                <td className={row.value < 0 ? 'negative-value' : 'positive-value'}>{row.value}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

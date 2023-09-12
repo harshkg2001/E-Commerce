@@ -9,6 +9,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import useToken from '../../hooks/useToken';
 import { Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
+import useTransaction from "../../hooks/useTransaction";
+import { addToTxn } from "../../redux/txnReducer";
  
 const { ethers } = require('ethers');
  
@@ -28,7 +30,9 @@ const contractABI = require('../../ABI.json');
 const wallet = new ethers.Wallet(privateKey);
  
 // Set up the provider (Ethereum node)
-const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/eth_goerli');
+// const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/eth_goerli');
+
+const provider = new ethers.providers.JsonRpcProvider('https://goerli.blockpi.network/v1/rpc/public');
  
 // Connect the wallet to the provider
 const connectedWallet = wallet.connect(provider);
@@ -48,7 +52,6 @@ const Cart = ({setOpen}) => {
   const totalPrice = () => {
     let total = 0;
     products.forEach((item) => {
-      // console.log(item);
       total += item.quantity * item.price;
     });
     return total.toFixed(2);
@@ -105,13 +108,13 @@ const Cart = ({setOpen}) => {
     });
     return adsTotal.toFixed(2);
   };
- 
-  // const {address, setAddress, token, setToken, payments, setPayments} = useToken();
+
   const { token, setToken, pumaToken, setPumaToken, nikeToken, setNikeToken, adsToken, setAdsToken, rbkToken, setRbkToken, sktToken, setSktToken, address, setAddress, payments, setPayments } = useToken();
   const [applied, setApplied] = useState(false)
   const navigate=useNavigate();
   const [discount, setDiscount] = useState(0);
 
+  const {transHistory, setTransHistory} = useTransaction();
 
   const nikeTotal = nikePrice();
   const pumaTotal = pumaPrice();
@@ -127,6 +130,12 @@ const Cart = ({setOpen}) => {
     const rbkBalance = await contract_rbk.balanceOf(address);
     const nikeBalance = await contract_nike.balanceOf(address);
     console.log('Applied')
+
+    setPumaToken(parseInt(pumaBalance));
+    setNikeToken(parseInt(nikeBalance));
+    setAdsToken(parseInt(adsBalance));
+    setRbkToken(parseInt(rbkBalance));
+    setSktToken(parseInt(sktBalance));
     
       if(parseInt(nikeTotal)>0){
         if(parseInt(nikeBalance)){
@@ -178,9 +187,7 @@ const Cart = ({setOpen}) => {
         
       // always being called.
       // ---------------------------------------------------
-      // let history = JSON.parse(localStorage.getItem('data')) || [];
       let history = [];
-      let trans_history = JSON.parse(localStorage.getItem('info')) || [];
       // ---------------------------------------------------
 
       const pumaBalance = await contract_puma.balanceOf(address);
@@ -204,8 +211,7 @@ const Cart = ({setOpen}) => {
             // ------------------------------------------
             history = [item1, ...history];
             // ------------------------------------------
-            setPayments(prevArray => [item1, ...prevArray]);
-            await new Promise(resolve => setTimeout(resolve, 5000));
+            await new Promise(resolve => setTimeout(resolve, 8000));
           }
         }
 
@@ -222,8 +228,7 @@ const Cart = ({setOpen}) => {
             // ------------------------------------------
             history = [item1, ...history];
             // ------------------------------------------
-            setPayments(prevArray => [item1, ...prevArray]);
-            await new Promise(resolve => setTimeout(resolve, 5000));
+            await new Promise(resolve => setTimeout(resolve, 8000));
           }
         }
 
@@ -240,8 +245,7 @@ const Cart = ({setOpen}) => {
             // ------------------------------------------
             history = [item1, ...history];
             // ------------------------------------------
-            setPayments(prevArray => [item1, ...prevArray]);
-            await new Promise(resolve => setTimeout(resolve, 5000));
+            await new Promise(resolve => setTimeout(resolve, 8000));
           }
         }
 
@@ -258,8 +262,7 @@ const Cart = ({setOpen}) => {
             // ------------------------------------------
             history = [item1, ...history];
             // ------------------------------------------
-            setPayments(prevArray => [item1, ...prevArray]);
-            await new Promise(resolve => setTimeout(resolve, 5000));
+            await new Promise(resolve => setTimeout(resolve, 8000));
           }
         }
         
@@ -273,15 +276,13 @@ const Cart = ({setOpen}) => {
         //       value: -parseInt(Math.min(100, parseInt(sktBalance))),
         //       comment: "Burned Skechers Tokens"
         //     };
-        //     setPayments(prevArray => [item1, ...prevArray]);
+        
         //     await new Promise(resolve => setTimeout(resolve, 5000));
         //   }
         // }
       }
  
- 
       // Minting
-
       if(parseInt(nikeTotal)){
         const transactionResponse = await contract_nike.mint(address, Math.min(50, parseInt((nikeTotal - Math.min(100, parseInt(nikeBalance))*10)/100)));
         console.log("Minting start...");
@@ -304,9 +305,7 @@ const Cart = ({setOpen}) => {
         // ------------------------------------------
         history = [item2, ...history];
         // ------------------------------------------
-    
-        setPayments(prevArray => [item2, ...prevArray]);
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        await new Promise(resolve => setTimeout(resolve, 8000));
       }
       if(parseInt(pumaTotal)){
         const transactionResponse = await contract_puma.mint(address, Math.min(50, parseInt((pumaTotal - Math.min(100, parseInt(pumaBalance))*10)/100)));
@@ -330,9 +329,7 @@ const Cart = ({setOpen}) => {
         // ------------------------------------------
         history = [item2, ...history];
         // ------------------------------------------
-    
-        setPayments(prevArray => [item2, ...prevArray]);
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        await new Promise(resolve => setTimeout(resolve, 8000));
       }
 
       if(parseInt(adsTotal)){
@@ -357,9 +354,7 @@ const Cart = ({setOpen}) => {
         // ------------------------------------------
         history = [item2, ...history];
         // ------------------------------------------
-    
-        setPayments(prevArray => [item2, ...prevArray]);
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        await new Promise(resolve => setTimeout(resolve, 8000));
       }
 
       if(parseInt(rbkTotal)){
@@ -384,18 +379,20 @@ const Cart = ({setOpen}) => {
         // ------------------------------------------
         history = [item2, ...history];
         // ------------------------------------------
-    
-        setPayments(prevArray => [item2, ...prevArray]);
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        await new Promise(resolve => setTimeout(resolve, 8000));
       }
       console.log("history", history);
+      dispatch(addToTxn(history));
 
-      trans_history = [history, ...trans_history];
-      localStorage.setItem('info', JSON.stringify(trans_history));
+      // setTransHistory((prev) => [history, ...prev]);
+      // localStorage.setItem('info', JSON.stringify(transHistory));
   
       const res = await makeRequest.post("/orders", {
         products,
       });
+      
+      console.log("appended");
+      
 
     }
     catch (err)
@@ -433,8 +430,6 @@ const Cart = ({setOpen}) => {
           </>
         }
         </div>
-        
-        
       </div>
       <FormGroup>
       <FormControlLabel control={<Checkbox value={applied} onClick={handleApply} />} label="Apply SneaKoins" />
