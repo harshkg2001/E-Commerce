@@ -14,11 +14,11 @@ root.render(
     <Provider store={store}>
       <PersistGate loading={"loading"} persistor={persistor}>
         <TokenProvider>
-          <AuthProvider>
+          {/* <AuthProvider> */}
             <TransactionProvider>
               <App/>
             </TransactionProvider>
-          </AuthProvider>
+          {/* </AuthProvider> */}
         </TokenProvider>
       </PersistGate>
     </Provider>
