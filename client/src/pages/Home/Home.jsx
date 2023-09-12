@@ -12,10 +12,10 @@ const Home = () => {
   const {user} = useAuth()
   const navigate = useNavigate();
   
-  // useEffect( () => {
-  //   if(!user)
-  //     return navigate("/login")
-  // }, [navigate]);
+  useEffect( () => {
+    if(!user)
+      return navigate("/login")
+  }, [navigate]);
 
   const {payments} = useToken()
   console.log(payments)
